@@ -1,0 +1,141 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserModel {
+  id: ID!
+  username: String!
+  email: String!
+  password: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type LoginResponse {
+  accessToken: String!
+  resfreshToken: String
+  user: UserModel!
+}
+
+type HabitModel {
+  id: ID!
+  title: String!
+  description: String
+  frequency: String!
+  isActive: Boolean!
+  createdAt: DateTime
+}
+
+type HabitLogModel {
+  id: ID!
+  date: String!
+  isCompleted: Boolean!
+}
+
+type ReminderModel {
+  id: ID!
+  user: ID!
+  habit: ID!
+  channel: ReminderChannel!
+  cron: String
+  time: String
+  timezone: String
+  enabled: Boolean!
+  note: String
+  lastSentAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""The channel through which the reminder will be sent"""
+enum ReminderChannel {
+  EMAIL
+  SMS
+  PUSH
+}
+
+type Query {
+  ping: String!
+  users: [UserModel!]!
+  me: UserModel!
+  myHabits: [HabitModel!]!
+  habitLogs(habitId: String!, days: Int): [HabitLogModel!]!
+  habitAnalytics(habitId: String!, days: Int): String!
+  remindersForUser: [ReminderModel!]!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): UserModel!
+  login(input: LoginUserInput!): LoginResponse!
+  updateUser(input: UpdateUserInput!): UserModel!
+  createHabit(input: CreateHabitInput!): HabitModel!
+  updateHabit(input: UpdateHabitInput!): HabitModel!
+  deleteHabit(id: String!): Boolean!
+  toggleHabitCompletion(input: ToggleHabitInput!): HabitLogModel!
+  createReminder(input: CreateReminderInput!): ReminderModel!
+  updateReminder(input: UpdateReminderInput!): ReminderModel!
+  deleteReminder(id: String!): Boolean!
+}
+
+input CreateUserInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  id: String
+  username: String
+  email: String
+  password: String
+}
+
+input CreateHabitInput {
+  title: String!
+  description: String
+  frequency: String! = "DAILY"
+}
+
+input UpdateHabitInput {
+  id: ID!
+  title: String
+  description: String
+  frequency: String
+  isActive: Boolean
+}
+
+input ToggleHabitInput {
+  habitId: String!
+  date: String
+}
+
+input CreateReminderInput {
+  habitId: String!
+  channel: String!
+  cron: String
+  time: String
+  timezone: String
+  note: String
+  enabled: Boolean
+}
+
+input UpdateReminderInput {
+  habitId: String
+  channel: String
+  cron: String
+  time: String
+  timezone: String
+  note: String
+  enabled: Boolean
+  id: String!
+}
