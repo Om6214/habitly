@@ -50,6 +50,12 @@ export class HabitsService {
     return this.toHabitModel(saved);
   }
 
+  async findById(id: string) {
+    const habit = await this.habitModel.findById(id).exec();
+    if (!habit) return null;
+    return this.toHabitModel(habit);
+  }
+
   async delete(userId: string, id: string) {
     const objUser = this.toObjectId(userId);
     const res = await this.habitModel.findOneAndDelete({ _id: id, user: objUser }).exec();

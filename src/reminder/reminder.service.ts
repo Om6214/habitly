@@ -2,8 +2,8 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { InjectModel } from '@nestjs/mongoose';
 import { Reminder, ReminderDocument } from './schemas/reminder.schema';
 import { Model, Types } from 'mongoose';
-import { Habit, HabitDocument } from 'src/habit/schema/habit.schema';
-import { User, UserDocument } from 'src/users/schemas/user.schema';
+import { Habit, HabitDocument } from '../habit/schema/habit.schema';
+import { User, UserDocument } from '../users/schemas/user.schema';
 import { CreateReminderInput } from './dto/create-reminder.input';
 import { UpdateReminderInput } from './dto/update-reminder.input';
 

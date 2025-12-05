@@ -11,6 +11,10 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { AuthModule } from './auth/auth.module';
 import { HabitsModule } from './habit/habit.module';
 import { ReminderModule } from './reminder/reminder.module';
+import { NotificationModule } from './reminder_scheduler/notification/notification.module';
+import { ReminderScheduler } from './reminder_scheduler/reminder.scheduler';
+import { ScheduleModule } from '@nestjs/schedule';
+import { DevModule } from './dev/dev.module';
 
 @Module({
   imports: [
@@ -21,6 +25,8 @@ import { ReminderModule } from './reminder/reminder.module';
         return connection;
       },
     }),
+    DevModule,
+    ScheduleModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
@@ -32,8 +38,9 @@ import { ReminderModule } from './reminder/reminder.module';
     UsersModule,
     HabitsModule,
     ReminderModule,
+    NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ReminderScheduler],
 })
 export class AppModule { }

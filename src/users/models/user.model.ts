@@ -10,6 +10,7 @@ export class UserModel {
 
   @Field()
   email: string;
+  
 
   @Field()
   password: string;

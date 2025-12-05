@@ -60,63 +60,26 @@ enum ReminderChannel {
 }
 
 type Query {
-  ping: String!
-  users: [UserModel!]!
-  me: UserModel!
+  remindersForUser: [ReminderModel!]!
   myHabits: [HabitModel!]!
   habitLogs(habitId: String!, days: Int): [HabitLogModel!]!
   habitAnalytics(habitId: String!, days: Int): String!
-  remindersForUser: [ReminderModel!]!
+  ping: String!
+  users: [UserModel!]!
+  me: UserModel!
 }
 
 type Mutation {
-  createUser(input: CreateUserInput!): UserModel!
-  login(input: LoginUserInput!): LoginResponse!
-  updateUser(input: UpdateUserInput!): UserModel!
+  createReminder(input: CreateReminderInput!): ReminderModel!
+  updateReminder(input: UpdateReminderInput!): ReminderModel!
+  deleteReminder(id: String!): Boolean!
   createHabit(input: CreateHabitInput!): HabitModel!
   updateHabit(input: UpdateHabitInput!): HabitModel!
   deleteHabit(id: String!): Boolean!
   toggleHabitCompletion(input: ToggleHabitInput!): HabitLogModel!
-  createReminder(input: CreateReminderInput!): ReminderModel!
-  updateReminder(input: UpdateReminderInput!): ReminderModel!
-  deleteReminder(id: String!): Boolean!
-}
-
-input CreateUserInput {
-  username: String!
-  email: String!
-  password: String!
-}
-
-input LoginUserInput {
-  email: String!
-  password: String!
-}
-
-input UpdateUserInput {
-  id: String
-  username: String
-  email: String
-  password: String
-}
-
-input CreateHabitInput {
-  title: String!
-  description: String
-  frequency: String! = "DAILY"
-}
-
-input UpdateHabitInput {
-  id: ID!
-  title: String
-  description: String
-  frequency: String
-  isActive: Boolean
-}
-
-input ToggleHabitInput {
-  habitId: String!
-  date: String
+  createUser(input: CreateUserInput!): UserModel!
+  login(input: LoginUserInput!): LoginResponse!
+  updateUser(input: UpdateUserInput!): UserModel!
 }
 
 input CreateReminderInput {
@@ -138,4 +101,41 @@ input UpdateReminderInput {
   note: String
   enabled: Boolean
   id: String!
+}
+
+input CreateHabitInput {
+  title: String!
+  description: String
+  frequency: String! = "DAILY"
+}
+
+input UpdateHabitInput {
+  id: ID!
+  title: String
+  description: String
+  frequency: String
+  isActive: Boolean
+}
+
+input ToggleHabitInput {
+  habitId: String!
+  date: String
+}
+
+input CreateUserInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  id: String
+  username: String
+  email: String
+  password: String
 }

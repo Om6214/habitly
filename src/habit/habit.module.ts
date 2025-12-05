@@ -12,9 +12,9 @@ import { AuthModule } from '../auth/auth.module';
       { name: Habit.name, schema: HabitSchema },
       { name: HabitLog.name, schema: HabitLogSchema },
     ]),
-    AuthModule, 
+    AuthModule,
   ],
   providers: [HabitsService, HabitsResolver],
   exports: [HabitsService],
 })
-export class HabitsModule {}
+export class HabitsModule { }
