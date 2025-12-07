@@ -1,8 +1,8 @@
 // src/reminderscheduler/reminder.processor.ts
 import { Injectable, Logger } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
-import { HabitsService } from 'src/habit/habit.service';
-import { ReminderDocument } from 'src/reminder/schemas/reminder.schema';
+import { UsersService } from '../users/users.service';
+import { HabitsService } from '../habit/habit.service';
+import { ReminderDocument } from '../reminder/schemas/reminder.schema';
 
 @Injectable()
 export class ReminderProcessor {

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 // import { SmsProvider } from './providers/sms.provider';
-// import { PushProvider } from './providers/push.provider';
+import { PushProvider } from './providers/push.provider';
 import { SendResultDto } from './dto/send-result.dto';
 import { EmailProvider } from './providers/email.provider';
 
@@ -11,7 +11,7 @@ export class NotificationService {
     constructor(
         private readonly emailProvider: EmailProvider,
         // private readonly smsProvider: SmsProvider,
-        // private readonly pushProvider: PushProvider,
+        private readonly pushProvider: PushProvider, // UNCOMMENTED
     ) { }
 
     // channel: 'EMAIL' | 'SMS' | 'PUSH'
@@ -22,8 +22,8 @@ export class NotificationService {
                     return await this.emailProvider.send(payload);
                 // case 'SMS':
                 //   return await this.smsProvider.send(payload);
-                // case 'PUSH':
-                //   return await this.pushProvider.send(payload);
+                case 'PUSH': // UNCOMMENTED
+                    return await this.pushProvider.send(payload);
                 default:
                     return { ok: false, error: `Unknown channel ${channel}` };
             }

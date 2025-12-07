@@ -142,4 +142,39 @@ export class UsersService {
         const result = await this.userModel.findByIdAndDelete(id).exec();
         return result ? true : false;
     }
+
+    async addPushToken(userId: string, token: string): Promise<any> {
+        // Update your user document to store the push token
+        // Example for MongoDB/Mongoose:
+        const user = await this.userModel.findByIdAndUpdate(
+            userId,
+            {
+                $addToSet: { pushTokens: token }, // Use addToSet to avoid duplicates
+                $set: { pushEnabled: true, updatedAt: new Date() }
+            },
+            { new: true }
+        );
+
+        return user;
+    }
+
+    async removePushToken(userId: string, token: string): Promise<any> {
+        const user = await this.userModel.findByIdAndUpdate(
+            userId,
+            {
+                $pull: { pushTokens: token },
+                $set: { updatedAt: new Date() }
+            },
+            { new: true }
+        );
+
+        return user;
+    }
+
+    async getPushTokens(userId: string): Promise<string[]> {
+        const user = await this.userModel.findById(userId).select('pushTokens');
+        return user?.pushTokens || [];
+    }
+
+
 }

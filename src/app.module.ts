@@ -14,10 +14,16 @@ import { ReminderModule } from './reminder/reminder.module';
 import { NotificationModule } from './reminder_scheduler/notification/notification.module';
 import { ReminderScheduler } from './reminder_scheduler/reminder.scheduler';
 import { ScheduleModule } from '@nestjs/schedule';
-import { DevModule } from './dev/dev.module';
+import { PushController } from './push/push.controller';
+import { PushModule } from './push/push.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/', // Serves files from root URL
+    }),
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/habitly', {
       connectionFactory: (connection) => {
@@ -25,7 +31,6 @@ import { DevModule } from './dev/dev.module';
         return connection;
       },
     }),
-    DevModule,
     ScheduleModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -39,8 +44,9 @@ import { DevModule } from './dev/dev.module';
     HabitsModule,
     ReminderModule,
     NotificationModule,
+    PushModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, PushController],
   providers: [AppService, ReminderScheduler],
 })
 export class AppModule { }

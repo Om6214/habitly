@@ -13,7 +13,7 @@ import { GqlAuthGuard } from './guards/gql-auth.guard';
     JwtModule.registerAsync({
       useFactory: (config: ConfigService) => ({
         secret: config.get<string>('JWT_SECRET') || 'defaultSecret',
-        signOptions: { expiresIn: '15m' },
+        signOptions: { expiresIn: '24hr' },
       }),
       inject: [ConfigService],
     }),

@@ -60,47 +60,44 @@ enum ReminderChannel {
 }
 
 type Query {
-  remindersForUser: [ReminderModel!]!
-  myHabits: [HabitModel!]!
-  habitLogs(habitId: String!, days: Int): [HabitLogModel!]!
-  habitAnalytics(habitId: String!, days: Int): String!
   ping: String!
   users: [UserModel!]!
   me: UserModel!
+  myHabits: [HabitModel!]!
+  habitLogs(habitId: String!, days: Int): [HabitLogModel!]!
+  habitAnalytics(habitId: String!, days: Int): String!
+  remindersForUser: [ReminderModel!]!
 }
 
 type Mutation {
-  createReminder(input: CreateReminderInput!): ReminderModel!
-  updateReminder(input: UpdateReminderInput!): ReminderModel!
-  deleteReminder(id: String!): Boolean!
+  createUser(input: CreateUserInput!): UserModel!
+  login(input: LoginUserInput!): LoginResponse!
+  updateUser(input: UpdateUserInput!): UserModel!
   createHabit(input: CreateHabitInput!): HabitModel!
   updateHabit(input: UpdateHabitInput!): HabitModel!
   deleteHabit(id: String!): Boolean!
   toggleHabitCompletion(input: ToggleHabitInput!): HabitLogModel!
-  createUser(input: CreateUserInput!): UserModel!
-  login(input: LoginUserInput!): LoginResponse!
-  updateUser(input: UpdateUserInput!): UserModel!
+  createReminder(input: CreateReminderInput!): ReminderModel!
+  updateReminder(input: UpdateReminderInput!): ReminderModel!
+  deleteReminder(id: String!): Boolean!
 }
 
-input CreateReminderInput {
-  habitId: String!
-  channel: String!
-  cron: String
-  time: String
-  timezone: String
-  note: String
-  enabled: Boolean
+input CreateUserInput {
+  username: String!
+  email: String!
+  password: String!
 }
 
-input UpdateReminderInput {
-  habitId: String
-  channel: String
-  cron: String
-  time: String
-  timezone: String
-  note: String
-  enabled: Boolean
-  id: String!
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  id: String
+  username: String
+  email: String
+  password: String
 }
 
 input CreateHabitInput {
@@ -122,20 +119,23 @@ input ToggleHabitInput {
   date: String
 }
 
-input CreateUserInput {
-  username: String!
-  email: String!
-  password: String!
+input CreateReminderInput {
+  habitId: String!
+  channel: String!
+  cron: String
+  time: String
+  timezone: String
+  note: String
+  enabled: Boolean
 }
 
-input LoginUserInput {
-  email: String!
-  password: String!
-}
-
-input UpdateUserInput {
-  id: String
-  username: String
-  email: String
-  password: String
+input UpdateReminderInput {
+  habitId: String
+  channel: String
+  cron: String
+  time: String
+  timezone: String
+  note: String
+  enabled: Boolean
+  id: String!
 }
