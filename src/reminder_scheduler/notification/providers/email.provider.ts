@@ -28,7 +28,6 @@ export class EmailProvider {
     }
 
     async send(payload: any): Promise<SendResultDto> {
-        // Construct recipient: prefer explicit payload.email then fallback to DEV_FALLBACK_EMAIL
         const to = payload.email || this.config.get<string>('DEV_FALLBACK_EMAIL');
         const subject = payload.subject || `Reminder: ${payload.habitTitle || 'Your habit'}`;
         const text = payload.text || payload.note || `It's time for your habit: ${payload.habitTitle || payload.habitId}`;

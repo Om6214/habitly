@@ -56,10 +56,7 @@ export class ReminderService {
         };
     }
 
-    /**
-     * Create a reminder for a habit owned by userId.
-     * userId is taken from the authenticated context (CurrentUser).
-     */
+
     async createReminder(userId: string, input: CreateReminderInput): Promise<ReminderDTO> {
         // verify user exists
         const user = await this.userModel.findById(this.toObjectId(userId)).exec();
@@ -87,9 +84,7 @@ export class ReminderService {
         return this.toDTO(saved);
     }
 
-    /**
-     * List reminders for a user (all reminders attached to the user's habits).
-     */
+
     async listForUser(userId: string): Promise<ReminderDTO[]> {
         const habits = await this.habitModel
             .find({ user: this.toObjectId(userId) })
@@ -104,9 +99,7 @@ export class ReminderService {
         return reminders.map(r => this.toDTO(r));
     }
 
-    /**
-     * Update a reminder. Ownership is enforced (user must own the habit the reminder belongs to).
-     */
+
     async update(userId: string, input: UpdateReminderInput): Promise<ReminderDTO> {
         const rem = await this.reminderModel.findById(input.id).exec();
         if (!rem) throw new NotFoundException('Reminder not found');
@@ -125,9 +118,7 @@ export class ReminderService {
         return this.toDTO(saved);
     }
 
-    /**
-     * Delete a reminder (ownership enforced).
-     */
+
     async delete(userId: string, id: string): Promise<boolean> {
         const rem = await this.reminderModel.findById(id).exec();
         if (!rem) throw new NotFoundException('Reminder not found');
@@ -139,17 +130,12 @@ export class ReminderService {
         return true;
     }
 
-    /**
-     * Fetch enabled reminders for background processing.
-     * Note: the worker should evaluate cron/time/timezone and check lastSentAt to avoid duplicates.
-     */
+
     async findEnabled(limit = 200): Promise<ReminderDocument[]> {
         return this.reminderModel.find({ enabled: true }).limit(limit).exec();
     }
 
-    /**
-     * Mark a reminder as sent (update lastSentAt).
-     */
+
     async markSent(reminderId: string): Promise<ReminderDTO | null> {
         const updated = await this.reminderModel
             .findByIdAndUpdate(reminderId, { lastSentAt: new Date() }, { new: true })

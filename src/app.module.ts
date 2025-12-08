@@ -39,6 +39,6 @@ import { ScheduleModule } from '@nestjs/schedule';
     NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ReminderScheduler],
+  providers: [AppService],
 })
 export class AppModule { }

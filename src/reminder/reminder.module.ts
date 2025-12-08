@@ -10,6 +10,7 @@ import { HabitsModule } from 'src/habit/habit.module';
 import { ReminderScheduler } from 'src/reminder_scheduler/reminder.scheduler';
 import { UsersModule } from 'src/users/users.module';
 import { ReminderProcessor } from 'src/reminder_scheduler/reminder.processor';
+import { MailQueueModule } from 'src/reminder_scheduler/queue/mail-queue.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { ReminderProcessor } from 'src/reminder_scheduler/reminder.processor';
     ]),
     forwardRef(() => NotificationModule),
     HabitsModule,
-    UsersModule
+    UsersModule,
+    MailQueueModule
   ],
   providers: [ReminderResolver, ReminderService, ReminderScheduler, ReminderProcessor],
   exports: [ReminderService, ReminderScheduler, ReminderProcessor],
